@@ -7,12 +7,13 @@ import javax.swing.JOptionPane;
 
 public class AntropometricaPage extends javax.swing.JFrame {
     
-    private Cliente cliente = UpdateDeleteMember.clienteTransfer;
+    private static Cliente cliente = null;
     private final ClienteService clienteService = ClienteService.getInstance();
     
     
-    public AntropometricaPage() {
+    public AntropometricaPage(Cliente cliente) {
         initComponents();
+        this.cliente = cliente;
         jLabel14.setText(cliente.getNome());
     }
 
@@ -356,7 +357,7 @@ public class AntropometricaPage extends javax.swing.JFrame {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         // TODO add your handling code here:
         setVisible(false);
-        new AntropometricaPage().setVisible(true);
+        new AntropometricaPage(cliente).setVisible(true);
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -411,7 +412,7 @@ public class AntropometricaPage extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AntropometricaPage().setVisible(true);
+                new AntropometricaPage(cliente).setVisible(true);
             }
         });
     }
