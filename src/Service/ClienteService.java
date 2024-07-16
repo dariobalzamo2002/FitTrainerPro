@@ -2,11 +2,14 @@ package Service;
 
 import Model.Anamnesi;
 import Model.Cliente;
+import Model.DTO.ProgressiClienteDTO;
+import Model.Esercizio;
 import Model.SchedaAntropometrica;
 import Repository.ClienteRepository;
 import Utility.ConnectionProvider;
 import enums.Genere;
 import enums.MetodoDiPagamento;
+import enums.StileDiVita;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -310,7 +313,7 @@ public final class ClienteService implements ClienteRepository
         PreparedStatement ps = null;
         String response = "Errore durante l'operazione di salvataggio!";
         
-        String sql ="Insert into schede_antropometriche (id_cliente, peso, altezza, ims, emilato, spalla, torace, vita, fianchi, braccio, polso, coscia, polpacci, collo) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql ="Insert into schede_antropometriche (id_cliente, peso, altezza, imc, emilato, spalla, torace, vita, fianchi, braccio, polso, coscia, polpacci, collo) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             ps = conn.prepareStatement(sql);
             ps.setLong(1, schedaAntropometrica.getCliente().getId());
@@ -367,6 +370,76 @@ public final class ClienteService implements ClienteRepository
         }
         return response;
     }
+
+    @Override
+    public ProgressiClienteDTO findByNameProgressiCliente(String name) {
+        Connection conn = connectionProvider.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        ProgressiClienteDTO progressiClienteDTO = null;
+        List<Esercizio> esercizi = new ArrayList<>();
+
+        String sql = "SELECT * FROM progressi_cliente_view WHERE nome = ?";       
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, name);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                if (progressiClienteDTO == null) {
+                    // Inizializzo al primo record l'oggetto DTO
+                    progressiClienteDTO = new ProgressiClienteDTO();
+                    progressiClienteDTO.setId(rs.getLong("id"));
+                    progressiClienteDTO.setNome(rs.getString("nome"));
+                    progressiClienteDTO.setEmail(rs.getString("email"));
+                    progressiClienteDTO.setCellulare(rs.getString("cellulare"));
+                    progressiClienteDTO.setDataDiNascita(rs.getDate("data_di_nascita"));
+                    progressiClienteDTO.setLuogoDiNascita(rs.getString("luogo_di_nascita"));
+                    progressiClienteDTO.setStileDiVita(StileDiVita.valueOf(StileDiVita.class, rs.getString("stile_di_vita")));
+                    progressiClienteDTO.setFrequenzaAllenamenti(rs.getString("frequenza_allenamenti"));
+                    progressiClienteDTO.setSmoker(rs.getBoolean("is_smoker"));
+                    progressiClienteDTO.setPatologie(rs.getString("patologie"));
+                    progressiClienteDTO.setDisformismo(rs.getString("disformismo"));
+                    progressiClienteDTO.setPeso(rs.getFloat("peso"));
+                    progressiClienteDTO.setAltezza(rs.getFloat("altezza"));
+                    progressiClienteDTO.setImc(rs.getFloat("imc"));
+                    progressiClienteDTO.setCollo(rs.getFloat("collo"));
+                    progressiClienteDTO.setSpalla(rs.getFloat("spalla"));
+                    progressiClienteDTO.setTorace(rs.getFloat("torace"));
+                    progressiClienteDTO.setBraccio(rs.getFloat("braccio"));
+                    progressiClienteDTO.setPolso(rs.getFloat("polso"));
+                    progressiClienteDTO.setVita(rs.getFloat("vita"));
+                    progressiClienteDTO.setFianchi(rs.getFloat("fianchi"));
+                    progressiClienteDTO.setCoscia(rs.getFloat("coscia"));
+                    progressiClienteDTO.setPolpacci(rs.getFloat("polpacci"));
+                    // Inizializzo la lista degli esercizi
+                    progressiClienteDTO.setEsercizi(esercizi);
+                    progressiClienteDTO.setDataEmissione(rs.getDate("data_emissione"));
+                }
+
+                // Aggiungo gli esercizi alla lista
+                Esercizio esercizio = new Esercizio();
+                esercizio.setNomeEsercizio(rs.getString("nome_esercizio"));
+                esercizio.setRepEx1(rs.getString("rep_ex1"));
+                esercizio.setSerie(rs.getInt("serie"));
+                esercizio.setRecupero(rs.getInt("recupero"));
+                esercizio.setSessione(rs.getString("sessione"));
+                esercizi.add(esercizio);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return progressiClienteDTO;
+    }
+    
     
     
     

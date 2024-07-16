@@ -1,13 +1,29 @@
 package View;
 
+import Model.DTO.ProgressiClienteDTO;
+import Model.Esercizio;
+import Service.ClienteService;
+import java.time.Instant;
+import java.util.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class home extends javax.swing.JFrame {
 
-
+    private final ClienteService clienteService = ClienteService.getInstance();
+    private String name = "Benvenuto Admin";
+    private Date data = Date.from(Instant.now());
+    
     public home() {
         initComponents();
-       
+        jLabel1.setText(name);
+        jLabel3.setText(data.toString());
     }
 
     @SuppressWarnings("unchecked")
@@ -27,6 +43,8 @@ public class home extends javax.swing.JFrame {
         jTable2 = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -57,11 +75,11 @@ public class home extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Nome cliente");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("DATA");
 
@@ -100,20 +118,66 @@ public class home extends javax.swing.JFrame {
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Esercizio", "Rep", "Serie", "Recupero"
+                "Sessione", "Esercizio", "Altro", "Rep", "Serie", "Recupero"
             }
         ));
         jScrollPane3.setViewportView(jTable3);
 
         jTabbedPane1.addTab("Scheda di Allenamento", jScrollPane3);
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Peso", "Altezza", "IMC", "Collo", "Spalla", "Torace", "Braccio", "Polso", "Vita", "Fianchi", "Coscia", "Polpacci"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable4);
+
+        jTabbedPane1.addTab("Scheda antropometrica", jScrollPane4);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("data scheda");
 
@@ -132,11 +196,13 @@ public class home extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jTabbedPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(116, 116, 116))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(72, 72, 72))
         );
         jPanel1Layout.setVerticalGroup(
@@ -149,11 +215,12 @@ public class home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(66, Short.MAX_VALUE))
+                    .addComponent(jLabel2))
+                .addGap(8, 8, 8)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         jMenuBar1.setBackground(new java.awt.Color(153, 153, 153));
@@ -268,13 +335,109 @@ public class home extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenu4MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        boolean checkID = false;
+        String nome = jTextField1.getText();
+
+        ProgressiClienteDTO progressiClienteDTO = clienteService.findByNameProgressiCliente(nome);
+        if (progressiClienteDTO != null) {
+            checkID = true;
+            name = progressiClienteDTO.getNome();
+            updateTables(progressiClienteDTO);
+        }
+
+        if (!checkID) {
+            JOptionPane.showMessageDialog(null, "L'UTENTE NON ESISTE!");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
+    private void updateTables(ProgressiClienteDTO dto) {
+        name = dto.getNome();
+        data = dto.getDataEmissione();
+        
+        // Aggiorna la tabella dei dati anagrafici
+        Object[][] anagraficiData = {
+            {dto.getNome(), dto.getDataDiNascita(), dto.getLuogoDiNascita(), dto.getEmail(), dto.getCellulare()}
+        };
+        updateTable(jTable1, anagraficiData);
+
+        // Aggiorna la tabella dell'anamnesi
+        Object[][] anamnesiData = {
+            {dto.getPatologie(), dto.getDisformismo(), dto.isSmoker(), dto.getStileDiVita(), dto.getFrequenzaAllenamenti()}
+        };
+        updateTable(jTable2, anamnesiData);
+
+        // Aggiorna la tabella della scheda di allenamento
+        updateTrainingTable(dto);
+
+        // Aggiorna la tabella della scheda antropometrica
+        Object[][] antropometricaData = {
+            {dto.getPeso(), dto.getAltezza(), dto.getImc(), dto.getCollo(), dto.getSpalla(), dto.getTorace(), 
+             dto.getBraccio(), dto.getPolso(), dto.getVita(), dto.getFianchi(), dto.getCoscia(), dto.getPolpacci()}
+        };
+        updateTable(jTable4, antropometricaData);
+
+        // Aggiorna la data della scheda
+        jLabel3.setText(dto.getDataEmissione().toString());
+    }
+
+    private void updateTable(JTable table, Object[][] data) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Rimuove tutte le righe esistenti
+        for (Object[] row : data) {
+            model.addRow(row); // Aggiunge le nuove righe
+        }
+    }
+    
+    private void updateTrainingTable(ProgressiClienteDTO dto) {
+        List<Esercizio> esercizi = dto.getEsercizi(); // Ottieni la lista degli esercizi
+
+        // Mappa per raggruppare esercizi per sessione
+        Map<String, List<Esercizio>> eserciziPerSessione = new LinkedHashMap<>();
+
+        // Raggruppa gli esercizi per sessione
+        for (Esercizio esercizio : esercizi) {
+            String sessione = esercizio.getSessione();
+            eserciziPerSessione.computeIfAbsent(sessione, k -> new ArrayList<>()).add(esercizio);
+        }
+
+        // Crea i dati per la tabella
+        List<Object[]> tableData = new ArrayList<>();
+
+        // Lista delle sessioni ordinate
+        List<String> sessioniOrdinate = List.of("SESSIONE_A", "SESSIONE_B", "SESSIONE_C", "SESSIONE_D");
+
+        // Aggiungi gli esercizi per sessione in base all'ordine specificato
+        for (String sessioneOrd : sessioniOrdinate) {
+            // Aggiungi una riga di intestazione vuota con il nome della sessione
+            tableData.add(new Object[]{sessioneOrd, "", "", "", "", ""});
+            
+            // Ottieni e aggiungi gli esercizi per la sessione corrente
+            List<Esercizio> eserciziSessione = eserciziPerSessione.get(sessioneOrd);
+            if (eserciziSessione != null) {
+                for (Esercizio esercizio : eserciziSessione) {
+                    tableData.add(new Object[]{
+                        "",
+                        esercizio.getNomeEsercizio(), // Nome esercizio
+                        esercizio.getAltro(), // Altri dettagli
+                        esercizio.getRepEx1(), // Ripetizioni
+                        esercizio.getSerie(), // Serie
+                        esercizio.getRecupero(), // Recupero
+                        esercizio.getSessione() // Sessione (opzionale, potrebbe non essere necessario)
+                    });
+                }
+            }
+        }
+        // Aggiorna la tabella con i dati organizzati
+        updateTable(jTable3, tableData.toArray(new Object[0][]));
+    }
+
+    
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new login().setVisible(true);
+                //new login().setVisible(true);
+                new home().setVisible(true);
             }
         });
     }
@@ -295,10 +458,12 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
