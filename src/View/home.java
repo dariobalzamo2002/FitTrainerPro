@@ -341,7 +341,6 @@ public class home extends javax.swing.JFrame {
         ProgressiClienteDTO progressiClienteDTO = clienteService.findByNameProgressiCliente(nome);
         if (progressiClienteDTO != null) {
             checkID = true;
-            name = progressiClienteDTO.getNome();
             updateTables(progressiClienteDTO);
         }
 
@@ -352,7 +351,7 @@ public class home extends javax.swing.JFrame {
 
     
     private void updateTables(ProgressiClienteDTO dto) {
-        name = dto.getNome();
+        jLabel1.setText(dto.getNome());
         data = dto.getDataEmissione();
         
         // Aggiorna la tabella dei dati anagrafici
