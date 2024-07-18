@@ -74,7 +74,7 @@ public class SchedaService implements SchedaRepository
             else
                 ps.setString(4, null);
             ps.setInt(5, esercizio.getSerie());
-            ps.setInt(6, esercizio.getRecupero());
+            ps.setString(6, esercizio.getRecupero());
             ps.setString(7, esercizio.getSessione());
             ps.execute();
             response = "Inserimento avvenuto con successo!";
@@ -123,5 +123,81 @@ public class SchedaService implements SchedaRepository
     }
     
     
+    public Long findByIdCliente(Long id_cliente) {
+        Connection conn = connectionProvider.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Long id = 0L; // Valore predefinito
+
+        
+        String sql ="SELECT id FROM schede_allenamento where id_cliente = ?";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setLong(1, id_cliente);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                id = rs.getLong("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+                ps.close();
+                rs.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return id;
+    }
     
+    @Override
+    public String deleteSchedaAllenamento(Long id_cliente) 
+    {
+        Connection conn = connectionProvider.getConnection();
+        PreparedStatement ps = null;
+        String response = "Operazione di eliminazione fallita!";
+
+        String sql = "Delete from schede_allenamento where id_cliente = ?";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setLong(1, id_cliente);
+            ps.execute();       
+            
+            response = "Eliminazione avvenuta con successo!";
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+                ps.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return response;
+    }
+    
+    @Override
+    public void deleteEsercizioByIdAllenamento(Long id_scheda_allenamento){
+        Connection conn = connectionProvider.getConnection();
+        PreparedStatement ps = null;
+
+        String sql = "Delete from esercizi where id_scheda_allenamento = ?";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setLong(1, id_scheda_allenamento);
+            ps.execute();       
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+                ps.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 }

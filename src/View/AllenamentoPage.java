@@ -35,6 +35,7 @@ public class AllenamentoPage extends javax.swing.JFrame {
         this.schedaAllenamento = new SchedaAllenamento();
         schedaAllenamento.setCliente(cliente);
         schedaAllenamento.setDataEmissione(data);
+        this.listaEsercizi.clear();
     }
 
     @SuppressWarnings("unchecked")
@@ -105,7 +106,7 @@ public class AllenamentoPage extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Esercizio", "Altro", "Serie", "REP", "Recupero"
+                "Esercizio*", "Altro", "Serie*", "REP*", "Recupero*"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -135,7 +136,7 @@ public class AllenamentoPage extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Esercizio", "Altro", "Serie", "REP", "Recupero"
+                "Esercizio*", "Altro*", "Serie*", "REP*", "Recupero*"
             }
         ));
         jScrollPane2.setViewportView(jTable2);
@@ -148,7 +149,7 @@ public class AllenamentoPage extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Esercizio", "Altro", "Serie", "REP", "Recupero"
+                "Esercizio*", "Altro", "Serie*", "REP*", "Recupero*"
             }
         ));
         jScrollPane3.setViewportView(jTable3);
@@ -161,7 +162,7 @@ public class AllenamentoPage extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Esercizio", "Altro", "Serie", "REP", "Recupero"
+                "Esercizio*", "Altro", "Serie*", "REP*", "Recupero*"
             }
         ));
         jScrollPane4.setViewportView(jTable4);
@@ -316,54 +317,106 @@ public class AllenamentoPage extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
         // logica di business: inserimento ESERCIZIO
         Esercizio esercizio = null;
         DefaultTableModel selectedTable = tableModel();
+        String valore = null, campoError = "";
+        Boolean isChecked = true;        
         
-        if(selectedTable != null){
+        if(selectedTable != null)
+        {
             int row = selectedTable.getRowCount();
             
-            for(int i = 0; i < row; i++){
+            for(int i = 0; i < row; i++)
+            {
                 esercizio = new Esercizio();
                 
-                esercizio.setNomeEsercizio(selectedTable.getValueAt(i, 0).toString());
-                // Verifica se la colonna 2 non è null o vuota prima di impostare repEx2
-                if (selectedTable.getValueAt(i, 1) != null && !selectedTable.getValueAt(i, 1).toString().isEmpty()) {
-                    esercizio.setAltro(selectedTable.getValueAt(i, 1).toString());
+                // VALIDATORI
+                valore = selectedTable.getValueAt(i, 0).toString();
+                if(valore != null && !valore.isEmpty())
+                    esercizio.setNomeEsercizio(valore);
+                else { 
+                    campoError = "Esercizio,";
+                    isChecked = false;
                 }
-                esercizio.setSerie(Integer.valueOf(selectedTable.getValueAt(i, 2).toString()));
-                esercizio.setRepEx1(selectedTable.getValueAt(i, 3).toString());
-                esercizio.setRecupero(Integer.valueOf(selectedTable.getValueAt(i, 4).toString()));
                 
-                int index = jTabbedPane2.getSelectedIndex();
-                esercizio.setSessione(SessioneAllenamento.values()[index].name());
-                esercizio.setSchedaAllenamento(schedaAllenamento);
+                valore = selectedTable.getValueAt(i, 1).toString();
+                if (valore != null && !valore.isEmpty())
+                    esercizio.setAltro(valore);
                 
+                valore = selectedTable.getValueAt(i, 3).toString();
+                if(valore != null && !valore.isEmpty())
+                    esercizio.setRepEx1(valore);
+                else {
+                    campoError += " REP,";
+                    isChecked = false;
+                }
                 
-                listaEsercizi.add(esercizio);
+                valore = selectedTable.getValueAt(i, 4).toString();
+                if(valore != null && !valore.isEmpty())
+                    esercizio.setRecupero(valore);
+                else {
+                    campoError += " Recupero,";
+                    isChecked = false;
+                }
+                
+                try {
+                    valore = selectedTable.getValueAt(i, 2).toString();
+                    if(valore != null && !valore.isEmpty())
+                        esercizio.setSerie(Integer.valueOf(valore));
+                    else {
+                        campoError += " Serie.";
+                        isChecked = false;
+                    }
+                    
+                    int index = jTabbedPane2.getSelectedIndex();
+                    esercizio.setSessione(SessioneAllenamento.values()[index].name());
+                    esercizio.setSchedaAllenamento(schedaAllenamento);
+                    
+                    listaEsercizi.add(esercizio);
+                } catch(NumberFormatException ex){
+                    ex.printStackTrace();
+                    campoError += " Serie è un campo numerico.";
+                    
+                    isChecked = false;
+                }
             }
+        }
+        
+        
+        if(isChecked)
             JOptionPane.showMessageDialog(null, "Sessione salvata con successo!");
+        else {
+            listaEsercizi.clear();
+            JOptionPane.showMessageDialog(null, "I seguenti campi sono obbligatori: " + campoError);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // iNSERIMENTO SCHEDA DI ALLENAMENTO NEL SISTEMA
-        String message = null;
         Long id = 0L;
         
-        schedaService.insertSchedaAllenamento(schedaAllenamento);
-        id = schedaService.findMaxId(cliente.getId());
+        if(!listaEsercizi.isEmpty())
+        {
+            schedaService.insertSchedaAllenamento(schedaAllenamento);
+            id = schedaService.findMaxId(cliente.getId());
         
-        for(Esercizio esercizio: listaEsercizi){
-            esercizio.getSchedaAllenamento().setId(id);
-            esercizio.setSchedaAllenamento(schedaAllenamento);
+            for(Esercizio esercizio: listaEsercizi)
+            {
+                esercizio.getSchedaAllenamento().setId(id);
+                esercizio.setSchedaAllenamento(schedaAllenamento);
+
+                schedaService.insertEsercizioo(esercizio);
+            }
             
-            message = schedaService.insertEsercizioo(esercizio);
-        }
-       
-        JOptionPane.showMessageDialog(null, "Scheda di allenamento creata con successo!");                
+            JOptionPane.showMessageDialog(null, "Scheda di allenamento creata con successo!");
+        } else
+            JOptionPane.showMessageDialog(null, "La scheda è vuota, non può essere creata!");                
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // RIMUOVE TUTTE LE RIGHE VUOTE PRESENTI IN TABELLA
         

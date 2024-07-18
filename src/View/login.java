@@ -1,7 +1,6 @@
 package View;
 
 import java.awt.Color;
-import javax.swing.JOptionPane;
 
 public class login extends javax.swing.JFrame {
     
@@ -174,7 +173,7 @@ public class login extends javax.swing.JFrame {
             new home().setVisible(true);
         }
         else
-        jLabel2.setVisible(true);
+            jLabel2.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed

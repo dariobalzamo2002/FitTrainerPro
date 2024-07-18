@@ -15,6 +15,6 @@ public class Esercizio
     private String repEx1;
     private String altro;
     private int serie;
-    private int recupero;
+    private String recupero;
     private String sessione;
 }

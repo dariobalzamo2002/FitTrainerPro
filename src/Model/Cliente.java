@@ -21,4 +21,11 @@ public class Cliente
     private String luogoDiNascita;
     private MetodoDiPagamento metodoDiPagamento;
     
+    public String dateFormat(String data){
+        if(data.matches("\\d{4}-\\d{2}-\\d{2}")){
+            return data;
+        }
+        String[] dataArray = data.split("/");
+        return dataArray[2]+ "-" + dataArray[1] + "-" + dataArray[0];
+    }
 }

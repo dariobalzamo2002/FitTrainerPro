@@ -6,7 +6,6 @@ import Service.ClienteService;
 import java.time.Instant;
 import java.util.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -261,7 +260,7 @@ public class home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
-        int a = JOptionPane.showConfirmDialog(null,"Do you really want to logout?", "Select", JOptionPane.YES_NO_OPTION);
+        int a = JOptionPane.showConfirmDialog(null,"Sei sicuro di uscire?", "Select", JOptionPane.YES_NO_OPTION);
         if(a == 0)
         {
             setVisible(false);
@@ -392,7 +391,6 @@ public class home extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //new login().setVisible(true);
                 new home().setVisible(true);
             }
         });

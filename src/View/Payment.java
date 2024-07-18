@@ -20,6 +20,7 @@ public class Payment extends javax.swing.JFrame
     
     public Payment() {
         initComponents();
+        jLabel8.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -45,6 +46,7 @@ public class Payment extends javax.swing.JFrame
         jButton3 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(175, 100));
@@ -214,6 +216,10 @@ public class Payment extends javax.swing.JFrame
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("ID");
 
+        jLabel8.setFont(new java.awt.Font("Tahoma", 2, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(213, 16, 16));
+        jLabel8.setText("Inserire un importo numerico valido!");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -227,7 +233,7 @@ public class Payment extends javax.swing.JFrame
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(74, 74, 74)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
                                 .addGap(18, 18, 18)
@@ -236,12 +242,12 @@ public class Payment extends javax.swing.JFrame
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton3))
+                            .addComponent(jTextField5)
+                            .addComponent(jTextField4)
+                            .addComponent(jTextField2)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                            .addComponent(jButton3)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(253, 253, 253)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(142, Short.MAX_VALUE))
@@ -276,6 +282,8 @@ public class Payment extends javax.swing.JFrame
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton3)))
                 .addContainerGap(322, Short.MAX_VALUE))
@@ -335,8 +343,11 @@ public class Payment extends javax.swing.JFrame
             checkID = true;
             jLabel2.setText(cliente.getId().toString());
             jTextField2.setText(cliente.getNome());
+            jTextField2.setEditable(false);
             jTextField3.setText(cliente.getCellulare().toString());
+            jTextField3.setEditable(false);
             jTextField4.setText(cliente.getEmail());
+            jTextField4.setEditable(false);
         }
         
         if(!checkID)
@@ -345,28 +356,40 @@ public class Payment extends javax.swing.JFrame
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        double importo = 0.0;
+        Date dataDiPagamento;
+        Long id_cliente;
+        Cliente cliente = null;
+        String message = "";
         
-        double importo = Double.parseDouble(jTextField5.getText());
-        // Data ricorrente
-        Date dataDiPagamento = Date.valueOf(LocalDate.now());
-        
-        Long id_cliente = Long.parseLong(jLabel2.getText());
-        
-        Cliente cliente = clienteService.findById(id_cliente);
-        if(cliente != null)
+        jLabel8.setVisible(false);
+        if(!jLabel2.getText().equals("ID"))
         {
-            // DATA BINDING
-            Pagamento pay = new Pagamento();
-            pay.setDataDiPagamento(dataDiPagamento);
-            pay.setImporto(Double.valueOf(jTextField5.getText().toString()));
-            pay.setCliente(cliente);
-            
-            String message = paymentService.insertPayment(pay);
-            
-            updateTablePayments(id_cliente);
-            
-            JOptionPane.showMessageDialog(null, message);
-        }
+            try {
+                importo = Double.parseDouble(jTextField5.getText());
+                
+                // Data ricorrente
+                dataDiPagamento = Date.valueOf(LocalDate.now());
+                id_cliente = Long.parseLong(jLabel2.getText());
+                cliente = clienteService.findById(id_cliente);
+                if(cliente != null)
+                {
+                    // DATA BINDING
+                    Pagamento pay = new Pagamento();
+                    pay.setDataDiPagamento(dataDiPagamento);
+                    pay.setImporto(importo);
+                    pay.setCliente(cliente);
+                    message = paymentService.insertPayment(pay);
+                    updateTablePayments(id_cliente);
+
+                    JOptionPane.showMessageDialog(null, message);
+                }
+            } catch(NumberFormatException ex){
+                System.out.println("#### LOG #### " + ex.getMessage());
+                jLabel8.setVisible(true);
+            }
+        } else
+            JOptionPane.showMessageDialog(null, "SELEZIONARE PRIMA UN UTENTE!!");
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -407,6 +430,7 @@ public class Payment extends javax.swing.JFrame
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

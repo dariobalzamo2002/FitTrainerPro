@@ -10,4 +10,10 @@ public interface SchedaRepository
     public String insertEsercizioo(Esercizio esercizio);
     
     public Long findMaxId(Long id_cliente);
+    
+    public Long findByIdCliente(Long id_cliente);
+    
+    public String deleteSchedaAllenamento(Long id_cliente);
+    
+    public void deleteEsercizioByIdAllenamento(Long id_scheda_allenamento);
 }

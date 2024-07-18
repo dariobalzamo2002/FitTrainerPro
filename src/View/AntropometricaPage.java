@@ -9,12 +9,15 @@ public class AntropometricaPage extends javax.swing.JFrame {
     
     private static Cliente cliente = null;
     private final ClienteService clienteService = ClienteService.getInstance();
-    
+    private boolean isSave;
     
     public AntropometricaPage(Cliente cliente) {
         initComponents();
+        
         this.cliente = cliente;
+        this.isSave = false;
         jLabel14.setText(cliente.getNome());
+        jLabel16.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -53,6 +56,7 @@ public class AntropometricaPage extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jLabel14 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -61,21 +65,21 @@ public class AntropometricaPage extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Peso (kg)");
+        jLabel1.setText("Peso (kg)*");
 
         jTextField1.setBackground(new java.awt.Color(255, 255, 255));
         jTextField1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Altezza (m)");
+        jLabel3.setText("Altezza (m)*");
 
         jTextField2.setBackground(new java.awt.Color(255, 255, 255));
         jTextField2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel8.setText("Emilato");
+        jLabel8.setText("Emilato*");
 
         jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
         jComboBox1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -84,35 +88,35 @@ public class AntropometricaPage extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel4.setText("Spalla");
+        jLabel4.setText("Spalla*");
 
         jTextField3.setBackground(new java.awt.Color(255, 255, 255));
         jTextField3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("Torace");
+        jLabel5.setText("Torace*");
 
         jTextField4.setBackground(new java.awt.Color(255, 255, 255));
         jTextField4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("Vita");
+        jLabel6.setText("Vita*");
 
         jTextField6.setBackground(new java.awt.Color(255, 255, 255));
         jTextField6.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel9.setText("Fianchi");
+        jLabel9.setText("Fianchi*");
 
         jTextField7.setBackground(new java.awt.Color(255, 255, 255));
         jTextField7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel10.setText("Braccio");
+        jLabel10.setText("Braccio*");
 
         jTextField8.setBackground(new java.awt.Color(255, 255, 255));
         jTextField8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -138,7 +142,7 @@ public class AntropometricaPage extends javax.swing.JFrame {
 
         jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel13.setText("Coscia");
+        jLabel13.setText("Coscia*");
 
         jTextField11.setBackground(new java.awt.Color(255, 255, 255));
         jTextField11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -205,7 +209,7 @@ public class AntropometricaPage extends javax.swing.JFrame {
 
         jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("Ciao");
+        jLabel7.setText("Scheda di");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -216,12 +220,12 @@ public class AntropometricaPage extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton3)
                     .addComponent(jLabel2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -238,6 +242,10 @@ public class AntropometricaPage extends javax.swing.JFrame {
                 .addGap(31, 31, 31))
         );
 
+        jLabel16.setFont(new java.awt.Font("Tahoma", 2, 12)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(218, 19, 19));
+        jLabel16.setText("Uno o più campi sono invalidi! (es: 30.5 o 30).");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -251,36 +259,37 @@ public class AntropometricaPage extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jTextField1)
                                 .addComponent(jTextField2)
+                                .addComponent(jComboBox1, 0, 300, Short.MAX_VALUE)
+                                .addComponent(jLabel1)
                                 .addComponent(jLabel3)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
                         .addGap(68, 68, 68)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel9))
                         .addGap(64, 64, 64)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel13))))
                 .addGap(137, 137, 137))
         );
         jPanel1Layout.setVerticalGroup(
@@ -345,11 +354,13 @@ public class AntropometricaPage extends javax.swing.JFrame {
                         .addComponent(jLabel15)
                         .addGap(18, 18, 18)
                         .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(89, 89, 89)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel16)
+                .addGap(55, 55, 55)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(295, Short.MAX_VALUE))
+                .addContainerGap(296, Short.MAX_VALUE))
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -389,46 +400,64 @@ public class AntropometricaPage extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Data Binding
-       SchedaAntropometrica antropometrica = new SchedaAntropometrica();
+        SchedaAntropometrica antropometrica = new SchedaAntropometrica();
+        float peso;
+        double altezza;
+        double imc;
+        
+        jLabel16.setVisible(false);
+        try {
+            peso = Float.valueOf(jTextField1.getText());
+            altezza = Double.valueOf(jTextField2.getText());
+
+            antropometrica.setCliente(cliente);
+            antropometrica.setPeso(peso);
+            antropometrica.setAltezza(altezza);
+            imc = peso/(altezza*altezza); // campo calcolato
+            antropometrica.setImc(imc);
+            antropometrica.setEmilato(Emilato.valueOf(Emilato.class, jComboBox1.getSelectedItem().toString()));
+            antropometrica.setSpalla(Float.valueOf(jTextField3.getText()));
+            antropometrica.setTorace(Float.valueOf(jTextField4.getText()));
+            antropometrica.setVita(Float.valueOf(jTextField6.getText()));
+            antropometrica.setFianchi(Float.valueOf(jTextField7.getText()));
+            antropometrica.setBraccio(Float.valueOf(jTextField8.getText()));
+            antropometrica.setCoscia(Float.valueOf(jTextField11.getText()));
+
+            // Controllo campi opzionali
+            if(!jTextField9.getText().equals(""))
+                 antropometrica.setPolso(Float.valueOf(jTextField9.getText()));
+            else 
+                antropometrica.setPolso(0);
+
+            if(!jTextField10.getText().equals(""))
+                 antropometrica.setPolpacci(Float.valueOf(jTextField10.getText()));
+            else 
+                antropometrica.setPolpacci(0);
+
+            if(!jTextField12.getText().equals(""))
+                antropometrica.setCollo(Float.valueOf(jTextField12.getText()));
+            else
+                antropometrica.setCollo(0);
+            
+            isSave = true;
+        } catch(NumberFormatException ex){
+            ex.printStackTrace();
+            jLabel16.setVisible(true);
+        } catch(Exception ex){
+            ex.printStackTrace();
+            JOptionPane.showConfirmDialog(null,"OPS... Qualcosa è andato storto, controllare i campi!");
+        }
        
-       float peso = Float.valueOf(jTextField1.getText());
-       double altezza = Double.valueOf(jTextField2.getText());
-       
-       antropometrica.setCliente(cliente);
-       antropometrica.setPeso(peso);
-       antropometrica.setAltezza(altezza);
-       double imc = peso/(altezza*altezza); // campo calcolato
-       antropometrica.setImc(imc);
-       antropometrica.setEmilato(Emilato.valueOf(Emilato.class, jComboBox1.getSelectedItem().toString()));
-       antropometrica.setSpalla(Float.valueOf(jTextField3.getText()));
-       antropometrica.setTorace(Float.valueOf(jTextField4.getText()));
-       antropometrica.setVita(Float.valueOf(jTextField6.getText()));
-       antropometrica.setFianchi(Float.valueOf(jTextField7.getText()));
-       antropometrica.setBraccio(Float.valueOf(jTextField8.getText()));
-       antropometrica.setCoscia(Float.valueOf(jTextField11.getText()));
-       
-       // Controllo campi opzionali
-       if(Float.valueOf(jTextField9.getText()) != null)
-            antropometrica.setPolso(Float.valueOf(jTextField9.getText()));
-       else 
-           antropometrica.setPolso(0);
-       
-       if(Float.valueOf(jTextField10.getText()) != null)
-            antropometrica.setPolpacci(Float.valueOf(jTextField10.getText()));
-       else 
-           antropometrica.setPolpacci(0);
-       
-       if(Float.valueOf(jTextField12.getText()) != null)
-           antropometrica.setCollo(Float.valueOf(jTextField12.getText()));
-       else
-           antropometrica.setCollo(0);
-       
-       clienteService.deleteVisitaAntropometrica(cliente.getId());
-       String message = clienteService.insertVisitaAntropometrica(antropometrica);
-       
-       JOptionPane.showConfirmDialog(null,message);
-       setVisible(false);
-       new UpdateDeleteMember().setVisible(true);
+        if(isSave)
+        {
+           clienteService.deleteVisitaAntropometrica(cliente.getId());
+           String message = clienteService.insertVisitaAntropometrica(antropometrica);
+           
+           JOptionPane.showConfirmDialog(null,message);
+           
+           setVisible(false);
+           new UpdateDeleteMember().setVisible(true);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField12ActionPerformed
@@ -456,6 +485,7 @@ public class AntropometricaPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

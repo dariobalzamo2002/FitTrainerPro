@@ -18,6 +18,9 @@ public final class ClienteService implements ClienteRepository
 {
     private static ClienteService instance = null;
     private ConnectionProvider connectionProvider = ConnectionProvider.getInstance();
+    private PaymentService paymentService = PaymentService.getInstance();
+    private SchedaService schedaService = SchedaService.getInstance();
+    
     
     public static ClienteService getInstance()
     {
@@ -73,11 +76,29 @@ public final class ClienteService implements ClienteRepository
     {
         Connection conn = connectionProvider.getConnection();
         PreparedStatement ps = null;
+        Long id_schedaAllenamento = 0L;
         String response = "Operazione di eliminazione fallita!";
         
-        String sql ="Delete from clients where id=?";
+        
+        String sql1 = "Delete from anamnesi where id_cliente = ?";
+        String sql2 = "Delete from schede_antropometriche where id_cliente = ?";
+        String sql3 ="Delete from clients where id=?";
+        
+        
+        paymentService.deleteByClientID(id);
+        id_schedaAllenamento = schedaService.findByIdCliente(id);
+        schedaService.deleteEsercizioByIdAllenamento(id_schedaAllenamento);
+        schedaService.deleteSchedaAllenamento(id);
         try {
-            ps = conn.prepareStatement(sql);
+            ps = conn.prepareStatement(sql1);
+            ps.setLong(1, id);
+            ps.execute();
+            
+            ps = conn.prepareStatement(sql2);
+            ps.setLong(1, id);
+            ps.execute();
+            
+            ps = conn.prepareStatement(sql3);
             ps.setLong(1, id);
             ps.execute();
             
@@ -422,7 +443,7 @@ public final class ClienteService implements ClienteRepository
                 esercizio.setNomeEsercizio(rs.getString("nome_esercizio"));
                 esercizio.setRepEx1(rs.getString("rep_ex1"));
                 esercizio.setSerie(rs.getInt("serie"));
-                esercizio.setRecupero(rs.getInt("recupero"));
+                esercizio.setRecupero(rs.getString("recupero"));
                 esercizio.setSessione(rs.getString("sessione"));
                 esercizi.add(esercizio);
             }

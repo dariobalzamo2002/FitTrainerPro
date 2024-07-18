@@ -26,7 +26,6 @@ public class ListOfMember extends javax.swing.JFrame
                 cliente.getEmail(),
                 cliente.getCellulare(),
                 cliente.getMetodoDiPagamento(),
-                
             });
         }
     }
