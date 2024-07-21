@@ -12,8 +12,9 @@ public class Esercizio
     private Long id;
     private SchedaAllenamento schedaAllenamento;
     private String nomeEsercizio;
-    private int repEx1;
-    private int repEx2;
+    private String repEx1;
+    private String altro;
     private int serie;
-    private int recupero;
+    private String recupero;
+    private String sessione;
 }

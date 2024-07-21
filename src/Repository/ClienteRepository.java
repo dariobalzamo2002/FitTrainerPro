@@ -2,6 +2,7 @@ package Repository;
 
 import Model.Anamnesi;
 import Model.Cliente;
+import Model.DTO.ProgressiClienteDTO;
 import Model.SchedaAntropometrica;
 import java.util.List;
 
@@ -26,4 +27,6 @@ public interface ClienteRepository
     public String insertVisitaAntropometrica(SchedaAntropometrica schedaAntropometrica);
     
     public String deleteVisitaAntropometrica(Long id_cliente);
+    
+    public ProgressiClienteDTO findByNameProgressiCliente(String name);
 }

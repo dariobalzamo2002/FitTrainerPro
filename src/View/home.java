@@ -1,13 +1,34 @@
 package View;
 
+import Model.DTO.HeaderPDF;
+import Model.DTO.ProgressiClienteDTO;
+import Model.Esercizio;
+import Service.ClienteService;
+import Utility.PdfGenerator;
+import java.io.File;
+import java.time.Instant;
+import java.util.Date;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class home extends javax.swing.JFrame {
 
-
+    private final ClienteService clienteService = ClienteService.getInstance();
+    private String name = "Benvenuto Admin";
+    private Date data = Date.from(Instant.now());
+    private HeaderPDF headerPDF = null;
+    
     public home() {
         initComponents();
-       
+        jLabel1.setText(name);
+        jLabel3.setText(data.toString());
+        
+        headerPDF = new HeaderPDF();
     }
 
     @SuppressWarnings("unchecked")
@@ -16,6 +37,21 @@ public class home extends javax.swing.JFrame {
 
         jPasswordField1 = new javax.swing.JPasswordField();
         jPanel1 = new javax.swing.JPanel();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable3 = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTable4 = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -30,15 +66,141 @@ public class home extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setFont(new java.awt.Font("Algerian", 1, 12)); // NOI18N
 
+        jTextField1.setBackground(new java.awt.Color(255, 255, 255));
+        jTextField1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jTextField1.setForeground(new java.awt.Color(204, 204, 204));
+        jTextField1.setText("cerca utente");
+
+        jButton1.setBackground(new java.awt.Color(0, 102, 255));
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Cerca");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Nome cliente");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("DATA");
+
+        jTabbedPane1.setBackground(new java.awt.Color(0, 102, 255));
+        jTabbedPane1.setForeground(new java.awt.Color(255, 255, 255));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nome e Cognome", "Data di nascita", "Luogo di Nascita", "E-mail", "Cellulare"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jTabbedPane1.addTab("Dati anagrafici", jScrollPane1);
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Patologie", "Disformismi", "Fumatore", "Stile di vita", "N. allenamenti settimanali"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        jTabbedPane1.addTab("Anamnesi", jScrollPane2);
+
+        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Sessione", "Esercizio", "Altro", "Rep", "Serie", "Recupero"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable3);
+
+        jTabbedPane1.addTab("Scheda di Allenamento", jScrollPane3);
+
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Peso", "Altezza", "IMC", "Collo", "Spalla", "Torace", "Braccio", "Polso", "Vita", "Fianchi", "Coscia", "Polpacci"
+            }
+        ));
+        jScrollPane4.setViewportView(jTable4);
+
+        jTabbedPane1.addTab("Scheda antropometrica", jScrollPane4);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("data scheda");
+
+        jButton2.setBackground(new java.awt.Color(22, 161, 44));
+        jButton2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("Download pdf");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1366, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(533, 533, 533)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jButton1)
+                .addContainerGap(622, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTabbedPane1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(116, 116, 116))
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                .addGap(72, 72, 72))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 701, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(8, 8, 8)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         jMenuBar1.setBackground(new java.awt.Color(153, 153, 153));
@@ -122,7 +284,7 @@ public class home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
-        int a = JOptionPane.showConfirmDialog(null,"Do you really want to logout?", "Select", JOptionPane.YES_NO_OPTION);
+        int a = JOptionPane.showConfirmDialog(null,"Sei sicuro di uscire?", "Select", JOptionPane.YES_NO_OPTION);
         if(a == 0)
         {
             setVisible(false);
@@ -152,15 +314,150 @@ public class home extends javax.swing.JFrame {
         new Payment().setVisible(true);
     }//GEN-LAST:event_jMenu4MouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        boolean checkID = false;
+        String nome = jTextField1.getText();
+
+        ProgressiClienteDTO progressiClienteDTO = clienteService.findByNameProgressiCliente(nome);
+        if (progressiClienteDTO != null) {
+            checkID = true;
+            // Preparazione Header pdf
+            headerPDF.setClientName(progressiClienteDTO.getNome());
+            headerPDF.setCreationDate(progressiClienteDTO.getDataEmissione());
+            headerPDF.setDurata(progressiClienteDTO.getDurata());
+            headerPDF.setFrequenzaSettimanale(progressiClienteDTO.getFrequenzaSettimanale());
+            headerPDF.setTipoAttivita(progressiClienteDTO.getTipoAttivita());
+            headerPDF.setTrainerName("Alessandro Balzamo");
+            headerPDF.setTable(jTable3);
+            headerPDF.setFilePath("C:\\Users\\d.balzamo\\Desktop\\schede-allenamento");
+            
+            updateTables(progressiClienteDTO);
+        }
+
+        if (!checkID) {
+            JOptionPane.showMessageDialog(null, "L'UTENTE NON ESISTE!");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // Creazione pdf
+
+        // Verifica se la directory esiste, altrimenti la crea
+        File directory = new File(headerPDF.getFilePath());
+        if (!directory.exists()) {
+            if (directory.mkdirs()) {
+                System.out.println("Directory creata con successo: " + headerPDF.getFilePath());
+            } else {
+                System.err.println("Errore nella creazione della directory: " + headerPDF.getFilePath());
+                JOptionPane.showMessageDialog(null, "Errore nella creazione della directory per salvare il PDF.");
+            }
+        }
+
+        // Nome del file PDF
+        String pdfFileName = headerPDF.getFilePath() + "\\scheda_" + headerPDF.getClientName().replaceAll("\\s+", "_") + ".pdf";
+        headerPDF.setFilePath(pdfFileName);
+        
+        PdfGenerator.generatePdf(headerPDF);
+        JOptionPane.showMessageDialog(null, "PDF generato con successo!");
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    
+    private void updateTables(ProgressiClienteDTO dto) {
+        jLabel1.setText(dto.getNome());
+        data = dto.getDataEmissione();
+        
+        // Aggiorna la tabella dei dati anagrafici
+        Object[][] anagraficiData = {
+            {dto.getNome(), dto.getDataDiNascita(), dto.getLuogoDiNascita(), dto.getEmail(), dto.getCellulare()}
+        };
+        updateTable(jTable1, anagraficiData);
+
+        // Aggiorna la tabella dell'anamnesi
+        Object[][] anamnesiData = {
+            {dto.getPatologie(), dto.getDisformismo(), dto.isSmoker(), dto.getStileDiVita(), dto.getFrequenzaAllenamenti()}
+        };
+        updateTable(jTable2, anamnesiData);
+
+        // Aggiorna la tabella della scheda di allenamento
+        updateTrainingricerca fullfTable(dto);
+
+        // Aggiorna la tabella della scheda antropometrica
+        Object[][] antropometricaData = {
+            {dto.getPeso(), dto.getAltezza(), dto.getImc(), dto.getCollo(), dto.getSpalla(), dto.getTorace(), 
+             dto.getBraccio(), dto.getPolso(), dto.getVita(), dto.getFianchi(), dto.getCoscia(), dto.getPolpacci()}
+        };
+        updateTable(jTable4, antropometricaData);
+
+        // Aggiorna la data della scheda
+        jLabel3.setText(dto.getDataEmissione().toString());
+    }
+
+    private void updateTable(JTable table, Object[][] data) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0); // Rimuove tutte le righe esistenti
+        for (Object[] row : data) {
+            model.addRow(row); // Aggiunge le nuove righe
+        }
+    }
+    
+    private void updateTrainingTable(ProgressiClienteDTO dto) {
+        List<Esercizio> esercizi = dto.getEsercizi(); // Ottieni la lista degli esercizi
+
+        // Mappa per raggruppare esercizi per sessione
+        Map<String, List<Esercizio>> eserciziPerSessione = new LinkedHashMap<>();
+
+        // Raggruppa gli esercizi per sessione
+        for (Esercizio esercizio : esercizi) {
+            String sessione = esercizio.getSessione();
+            eserciziPerSessione.computeIfAbsent(sessione, k -> new ArrayList<>()).add(esercizio);
+        }
+
+        // Crea i dati per la tabella
+        List<Object[]> tableData = new ArrayList<>();
+
+        // Lista delle sessioni ordinate
+        List<String> sessioniOrdinate = List.of("SESSIONE_A", "SESSIONE_B", "SESSIONE_C", "SESSIONE_D");
+
+        // Aggiungi gli esercizi per sessione in base all'ordine specificato
+        for (String sessioneOrd : sessioniOrdinate) {
+            // Aggiungi una riga di intestazione vuota con il nome della sessione
+            tableData.add(new Object[]{sessioneOrd, "", "", "", "", ""});
+            
+            // Ottieni e aggiungi gli esercizi per la sessione corrente
+            List<Esercizio> eserciziSessione = eserciziPerSessione.get(sessioneOrd);
+            if (eserciziSessione != null) {
+                for (Esercizio esercizio : eserciziSessione) {
+                    tableData.add(new Object[]{
+                        "",
+                        esercizio.getNomeEsercizio(), // Nome esercizio
+                        esercizio.getAltro(), // Altri dettagli
+                        esercizio.getRepEx1(), // Ripetizioni
+                        esercizio.getSerie(), // Serie
+                        esercizio.getRecupero(), // Recupero
+                        esercizio.getSessione() // Sessione (opzionale, potrebbe non essere necessario)
+                    });
+                }
+            }
+        }
+        // Aggiorna la tabella con i dati organizzati
+        updateTable(jTable3, tableData.toArray(new Object[0][]));
+    }
+
+    
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new login().setVisible(true);
+                new home().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -169,5 +466,15 @@ public class home extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JTable jTable3;
+    private javax.swing.JTable jTable4;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

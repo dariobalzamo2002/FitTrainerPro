@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.Date;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,4 +14,7 @@ public class SchedaAllenamento
     private Long id;
     private Cliente cliente;
     private Date dataEmissione;
+    private String durata; 
+    private String frequenzaSettimanale;
+    private String tipoAttivita;
 }

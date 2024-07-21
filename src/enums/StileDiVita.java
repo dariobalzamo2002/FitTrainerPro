@@ -3,7 +3,7 @@ package enums;
 public enum StileDiVita 
 {
     SEDENTARIO,
-    MODERAMENTE_ATTIVO,
+    MODERATAMENTE_ATTIVO,
     ATTIVO,
     ATLETA
 }
