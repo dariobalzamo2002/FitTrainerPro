@@ -86,7 +86,7 @@ public final class ClienteService implements ClienteRepository
         
         
         paymentService.deleteByClientID(id);
-        id_schedaAllenamento = schedaService.findByIdCliente(id);
+        id_schedaAllenamento = schedaService.findIdByIdCliente(id);
         schedaService.deleteEsercizioByIdAllenamento(id_schedaAllenamento);
         schedaService.deleteSchedaAllenamento(id);
         try {
@@ -400,10 +400,10 @@ public final class ClienteService implements ClienteRepository
         ProgressiClienteDTO progressiClienteDTO = null;
         List<Esercizio> esercizi = new ArrayList<>();
 
-        String sql = "SELECT * FROM progressi_cliente_view WHERE nome = ?";       
+        String sql = "SELECT * FROM progressi_cliente_view WHERE nome like ?";       
         try {
             ps = conn.prepareStatement(sql);
-            ps.setString(1, name);
+            ps.setString(1,"%" + name + "%");
             rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -436,11 +436,15 @@ public final class ClienteService implements ClienteRepository
                     // Inizializzo la lista degli esercizi
                     progressiClienteDTO.setEsercizi(esercizi);
                     progressiClienteDTO.setDataEmissione(rs.getDate("data_emissione"));
+                    progressiClienteDTO.setDurata(rs.getString("durata"));
+                    progressiClienteDTO.setFrequenzaSettimanale(rs.getString("frequenza_settimanale"));
+                    progressiClienteDTO.setTipoAttivita(rs.getString("tipo_attività"));
                 }
 
                 // Aggiungo gli esercizi alla lista
                 Esercizio esercizio = new Esercizio();
                 esercizio.setNomeEsercizio(rs.getString("nome_esercizio"));
+                esercizio.setAltro(rs.getString("altro"));
                 esercizio.setRepEx1(rs.getString("rep_ex1"));
                 esercizio.setSerie(rs.getInt("serie"));
                 esercizio.setRecupero(rs.getString("recupero"));

@@ -14,4 +14,7 @@ public class SchedaAllenamento
     private Long id;
     private Cliente cliente;
     private Date dataEmissione;
+    private String durata; 
+    private String frequenzaSettimanale;
+    private String tipoAttivita;
 }

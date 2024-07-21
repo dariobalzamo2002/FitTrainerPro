@@ -40,6 +40,9 @@ public class ProgressiClienteDTO
     private float polpacci;
     
     private List<Esercizio> esercizi;
-    private Date dataEmissione;
     
+    private Date dataEmissione;
+    private String durata; 
+    private String frequenzaSettimanale;
+    private String tipoAttivita;
 }

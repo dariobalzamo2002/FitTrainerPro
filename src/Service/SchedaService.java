@@ -33,11 +33,14 @@ public class SchedaService implements SchedaRepository
         Connection conn = connectionProvider.getConnection();
         PreparedStatement ps = null;
         
-        String sql = "Insert into schede_allenamento (id_cliente, data_emissione) values(?, ?)";
+        String sql = "Insert into schede_allenamento (id_cliente, data_emissione, durata, frequenzaSettimanale, tipoAttività) values(?, ?, ?, ?, ?)";
         try {
             ps = conn.prepareStatement(sql);
             ps.setLong(1, schedaAllenamento.getCliente().getId());
             ps.setDate(2, new java.sql.Date(schedaAllenamento.getDataEmissione().getTime()));
+            ps.setString(3, schedaAllenamento.getDurata());
+            ps.setString(4, schedaAllenamento.getFrequenzaSettimanale());
+            ps.setString(5, schedaAllenamento.getTipoAttivita());
             ps.execute();
             response = "Inserimento avvenuto con successo!";
         } catch (SQLException e) {
@@ -123,7 +126,7 @@ public class SchedaService implements SchedaRepository
     }
     
     
-    public Long findByIdCliente(Long id_cliente) {
+    public Long findIdByIdCliente(Long id_cliente) {
         Connection conn = connectionProvider.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;

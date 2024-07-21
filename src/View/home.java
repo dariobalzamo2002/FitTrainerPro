@@ -1,5 +1,6 @@
 package View;
 
+import Model.DTO.HeaderPDF;
 import Model.DTO.ProgressiClienteDTO;
 import Model.Esercizio;
 import Service.ClienteService;
@@ -20,11 +21,14 @@ public class home extends javax.swing.JFrame {
     private final ClienteService clienteService = ClienteService.getInstance();
     private String name = "Benvenuto Admin";
     private Date data = Date.from(Instant.now());
+    private HeaderPDF headerPDF = null;
     
     public home() {
         initComponents();
         jLabel1.setText(name);
         jLabel3.setText(data.toString());
+        
+        headerPDF = new HeaderPDF();
     }
 
     @SuppressWarnings("unchecked")
@@ -317,6 +321,16 @@ public class home extends javax.swing.JFrame {
         ProgressiClienteDTO progressiClienteDTO = clienteService.findByNameProgressiCliente(nome);
         if (progressiClienteDTO != null) {
             checkID = true;
+            // Preparazione Header pdf
+            headerPDF.setClientName(progressiClienteDTO.getNome());
+            headerPDF.setCreationDate(progressiClienteDTO.getDataEmissione());
+            headerPDF.setDurata(progressiClienteDTO.getDurata());
+            headerPDF.setFrequenzaSettimanale(progressiClienteDTO.getFrequenzaSettimanale());
+            headerPDF.setTipoAttivita(progressiClienteDTO.getTipoAttivita());
+            headerPDF.setTrainerName("Alessandro Balzamo");
+            headerPDF.setTable(jTable3);
+            headerPDF.setFilePath("C:\\Users\\d.balzamo\\Desktop\\schede-allenamento");
+            
             updateTables(progressiClienteDTO);
         }
 
@@ -326,32 +340,24 @@ public class home extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        // Button - creazione pdf
-        String clientName = jLabel1.getText(), 
-               trainerName = "Alessandro Balzamo", 
-               creationDate = jLabel3.getText(), 
-                // Percorso della directory per salvare il PDF
-               filePath = "C:\\Users\\d.balzamo\\Desktop\\schede-allenamento";
-        
-        JTable tabel = jTable3;
-        
+        // Creazione pdf
+
         // Verifica se la directory esiste, altrimenti la crea
-        File directory = new File(filePath);
+        File directory = new File(headerPDF.getFilePath());
         if (!directory.exists()) {
             if (directory.mkdirs()) {
-                System.out.println("Directory creata con successo: " + filePath);
+                System.out.println("Directory creata con successo: " + headerPDF.getFilePath());
             } else {
-                System.err.println("Errore nella creazione della directory: " + filePath);
+                System.err.println("Errore nella creazione della directory: " + headerPDF.getFilePath());
                 JOptionPane.showMessageDialog(null, "Errore nella creazione della directory per salvare il PDF.");
-                return;
             }
         }
 
         // Nome del file PDF
-        String pdfFileName = filePath + "\\scheda_" + clientName.replaceAll("\\s+", "_") + ".pdf";
-    
-        PdfGenerator.generatePdf(trainerName, clientName, creationDate, tabel, pdfFileName);
+        String pdfFileName = headerPDF.getFilePath() + "\\scheda_" + headerPDF.getClientName().replaceAll("\\s+", "_") + ".pdf";
+        headerPDF.setFilePath(pdfFileName);
+        
+        PdfGenerator.generatePdf(headerPDF);
         JOptionPane.showMessageDialog(null, "PDF generato con successo!");
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -373,7 +379,7 @@ public class home extends javax.swing.JFrame {
         updateTable(jTable2, anamnesiData);
 
         // Aggiorna la tabella della scheda di allenamento
-        updateTrainingTable(dto);
+        updateTrainingricerca fullfTable(dto);
 
         // Aggiorna la tabella della scheda antropometrica
         Object[][] antropometricaData = {
