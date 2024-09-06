@@ -379,7 +379,7 @@ public class home extends javax.swing.JFrame {
         updateTable(jTable2, anamnesiData);
 
         // Aggiorna la tabella della scheda di allenamento
-        updateTrainingricerca fullfTable(dto);
+        updateTrainingTable(dto);
 
         // Aggiorna la tabella della scheda antropometrica
         Object[][] antropometricaData = {
