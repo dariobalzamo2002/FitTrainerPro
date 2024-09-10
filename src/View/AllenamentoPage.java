@@ -208,7 +208,7 @@ public class AllenamentoPage extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Esercizio*", "Altro*", "Serie*", "REP*", "Recupero*"
+                "Esercizio*", "Altro", "Serie*", "REP*", "Recupero*"
             }
         ));
         jScrollPane2.setViewportView(jTable2);
