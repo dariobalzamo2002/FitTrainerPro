@@ -17,24 +17,30 @@ public class AllenamentoPage extends javax.swing.JFrame {
 
     private static Cliente cliente = null;
     private SchedaService schedaService = SchedaService.getInstance();
-    
     private List<Esercizio> listaEsercizi = new ArrayList<>();
     private SchedaAllenamento schedaAllenamento = null;
-            
+    private boolean isNewAllenamento = true;
             
             
     public AllenamentoPage(Cliente cliente) {
         initComponents();
         
         this.cliente = cliente;
+        this.schedaAllenamento = schedaService.getSchedaAllenamento(cliente.getId(), cliente);
+        
         Date data = Date.valueOf(LocalDate.now());
         jLabel2.setText(data.toString());
         jLabel1.setText(cliente.getNome());
         
-        // Preparazione scheda di allenamento: 
-        this.schedaAllenamento = new SchedaAllenamento();
-        schedaAllenamento.setCliente(cliente);
-        schedaAllenamento.setDataEmissione(data);
+        // Preparazione scheda di allenamento:         
+        if( schedaAllenamento == null) {
+            this.schedaAllenamento = new SchedaAllenamento();
+            
+            schedaAllenamento.setCliente(cliente);
+            schedaAllenamento.setDataEmissione(data);
+        } else
+            isNewAllenamento = false;
+        
         this.listaEsercizi.clear();
     }
 
@@ -63,6 +69,8 @@ public class AllenamentoPage extends javax.swing.JFrame {
         jTable3 = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTable5 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -240,6 +248,19 @@ public class AllenamentoPage extends javax.swing.JFrame {
         jScrollPane4.setViewportView(jTable4);
 
         jTabbedPane2.addTab("SESSIONE D", jScrollPane4);
+
+        jTable5.setBackground(new java.awt.Color(204, 204, 204));
+        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Esercizio*", "Altro", "Serie*", "Rep*", "Recupero*"
+            }
+        ));
+        jScrollPane5.setViewportView(jTable5);
+
+        jTabbedPane2.addTab("SESSIONE E", jScrollPane5);
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -456,7 +477,6 @@ public class AllenamentoPage extends javax.swing.JFrame {
             }
         }
         
-        
         if(isChecked)
             JOptionPane.showMessageDialog(null, "Sessione salvata con successo!");
         else {
@@ -467,11 +487,12 @@ public class AllenamentoPage extends javax.swing.JFrame {
 
     
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // iNSERIMENTO SCHEDA DI ALLENAMENTO NEL SISTEMA
+        // INSERIMENTO SCHEDA DI ALLENAMENTO NEL SISTEMA
         Long id = 0L;
+        String message = "";
         
         if(!listaEsercizi.isEmpty())
-        {
+        {        
             String durata = jTextField2.getText();
             String tipoAttivita = jTextField1.getText(); 
             String freqAllenamenti = jTextField3.getText();
@@ -480,18 +501,25 @@ public class AllenamentoPage extends javax.swing.JFrame {
                 schedaAllenamento.setDurata(durata);
                 schedaAllenamento.setFrequenzaSettimanale(freqAllenamenti);
                 schedaAllenamento.setTipoAttivita(tipoAttivita);
-                schedaService.insertSchedaAllenamento(schedaAllenamento);
-                id = schedaService.findMaxId(cliente.getId());
-
+                
+                if(isNewAllenamento)
+                    message = schedaService.insertSchedaAllenamento(schedaAllenamento);
+                else {
+                    // BONIFICA DATABASE: CLEAR
+                    schedaService.deleteEsercizioByIdAllenamento(schedaAllenamento.getId());
+                    message = schedaService.updateSchedaAllenamento(schedaAllenamento);        
+                }
+                
+                // Trovo l'id della scheda di allenamento del cliente in oggetto.
+                id = schedaService.findIdAllenamentoByIdCliente(cliente.getId());             
                 for(Esercizio esercizio: listaEsercizi)
                 {
                     esercizio.getSchedaAllenamento().setId(id);
                     esercizio.setSchedaAllenamento(schedaAllenamento);
-
+                    
                     schedaService.insertEsercizioo(esercizio);
                 }
-
-                JOptionPane.showMessageDialog(null, "Scheda di allenamento creata con successo!");
+                JOptionPane.showMessageDialog(null, message);
             } else
                 JOptionPane.showMessageDialog(null, "Compilare tutti i campi obbligatori!");
         } else
@@ -549,6 +577,9 @@ public class AllenamentoPage extends javax.swing.JFrame {
             case 3: // SESSIONE D
                 selectedTable = jTable4;
                 break;
+            case 4: // SESSIONE E
+                selectedTable = jTable5;
+                
         }
         
         return (javax.swing.table.DefaultTableModel) selectedTable.getModel();
@@ -584,11 +615,13 @@ public class AllenamentoPage extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
+    private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;

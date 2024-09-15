@@ -1,5 +1,6 @@
 package Service;
 
+import Model.Cliente;
 import Model.Esercizio;
 import Model.SchedaAllenamento;
 import Repository.SchedaRepository;
@@ -95,38 +96,10 @@ public class SchedaService implements SchedaRepository
         return response;
     }
 
-    @Override
-    public Long findMaxId(Long id_cliente) {
-        Connection conn = connectionProvider.getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        Long id = 0L; // Valore predefinito
-
-        
-        String sql ="SELECT MAX(id) as 'id' FROM schede_allenamento where id_cliente = ?";
-        try {
-            ps = conn.prepareStatement(sql);
-            ps.setLong(1, id_cliente);
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                id = rs.getLong("id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                conn.close();
-                ps.close();
-                rs.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-        return id;
-    }
     
     
-    public Long findIdByIdCliente(Long id_cliente) {
+    
+    public Long findIdAllenamentoByIdCliente(Long id_cliente) {
         Connection conn = connectionProvider.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -203,4 +176,72 @@ public class SchedaService implements SchedaRepository
             }
         }
     }
+    
+    @Override
+    public SchedaAllenamento getSchedaAllenamento(Long id_cliente, Cliente cliente) {
+        Connection conn = connectionProvider.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        SchedaAllenamento schedaAllenamento = null;
+        
+        String sql ="SELECT * FROM schede_allenamento where id_cliente = ?";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setLong(1, id_cliente);
+            rs = ps.executeQuery();
+            if (rs.next()) 
+            {                
+                schedaAllenamento = new SchedaAllenamento();
+                schedaAllenamento.setId(rs.getLong("id"));
+                schedaAllenamento.setCliente(cliente);
+                schedaAllenamento.setDataEmissione(rs.getDate("data_emissione"));
+                schedaAllenamento.setDurata(rs.getString("durata"));
+                schedaAllenamento.setFrequenzaSettimanale(rs.getString("frequenzaSettimanale"));
+                schedaAllenamento.setTipoAttivita(rs.getString("tipoAttività"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+                ps.close();
+                rs.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        
+        return schedaAllenamento;
+    }
+    
+    @Override
+    public String updateSchedaAllenamento(SchedaAllenamento schedaAllenamento) {
+        Connection conn = connectionProvider.getConnection();
+        PreparedStatement ps = null;
+        String response = "Operazione di modifica fallita!";
+        
+        String sql ="UPDATE schede_allenamento SET data_emissione = ?, durata = ?, frequenzaSettimanale = ?, tipoAttività = ? WHERE id_cliente = ?";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setDate(1, new java.sql.Date(schedaAllenamento.getDataEmissione().getTime()));
+            ps.setString(2, schedaAllenamento.getDurata());
+            ps.setString(3, schedaAllenamento.getFrequenzaSettimanale());
+            ps.setString(4, schedaAllenamento.getTipoAttivita());
+            ps.setLong(5, schedaAllenamento.getCliente().getId());
+            ps.executeUpdate();
+            response = "Modifica avvenuta con successo!";
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conn.close();
+                ps.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        
+        return response;
+    }
+    
 }

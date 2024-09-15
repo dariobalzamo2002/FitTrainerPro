@@ -1,5 +1,6 @@
 package Repository;
 
+import Model.Cliente;
 import Model.Esercizio;
 import Model.SchedaAllenamento;
 
@@ -9,11 +10,13 @@ public interface SchedaRepository
     
     public String insertEsercizioo(Esercizio esercizio);
     
-    public Long findMaxId(Long id_cliente);
-    
-    public Long findIdByIdCliente(Long id_cliente);
+    public Long findIdAllenamentoByIdCliente(Long id_cliente);
     
     public String deleteSchedaAllenamento(Long id_cliente);
     
     public void deleteEsercizioByIdAllenamento(Long id_scheda_allenamento);
+    
+    public SchedaAllenamento getSchedaAllenamento(Long id_cliente, Cliente cliente);
+            
+    public String updateSchedaAllenamento(SchedaAllenamento schedaAllenamento);
 }

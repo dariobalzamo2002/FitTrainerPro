@@ -86,7 +86,7 @@ public final class ClienteService implements ClienteRepository
         
         
         paymentService.deleteByClientID(id);
-        id_schedaAllenamento = schedaService.findIdByIdCliente(id);
+        id_schedaAllenamento = schedaService.findIdAllenamentoByIdCliente(id);
         schedaService.deleteEsercizioByIdAllenamento(id_schedaAllenamento);
         schedaService.deleteSchedaAllenamento(id);
         try {

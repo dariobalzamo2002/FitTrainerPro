@@ -445,7 +445,7 @@ public class AntropometricaPage extends javax.swing.JFrame {
             jLabel16.setVisible(true);
         } catch(Exception ex){
             ex.printStackTrace();
-            JOptionPane.showConfirmDialog(null,"OPS... Qualcosa è andato storto, controllare i campi!");
+            JOptionPane.showMessageDialog(null,"OPS... Qualcosa è andato storto, controllare i campi!");
         }
        
         if(isSave)
@@ -453,7 +453,7 @@ public class AntropometricaPage extends javax.swing.JFrame {
            clienteService.deleteVisitaAntropometrica(cliente.getId());
            String message = clienteService.insertVisitaAntropometrica(antropometrica);
            
-           JOptionPane.showConfirmDialog(null,message);
+           JOptionPane.showMessageDialog(null,message);
            
            setVisible(false);
            new UpdateDeleteMember().setVisible(true);

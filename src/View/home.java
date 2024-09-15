@@ -416,7 +416,7 @@ public class home extends javax.swing.JFrame {
         List<Object[]> tableData = new ArrayList<>();
 
         // Lista delle sessioni ordinate
-        List<String> sessioniOrdinate = List.of("SESSIONE_A", "SESSIONE_B", "SESSIONE_C", "SESSIONE_D");
+        List<String> sessioniOrdinate = List.of("SESSIONE_A", "SESSIONE_B", "SESSIONE_C", "SESSIONE_D", "SESSIONE_E");
 
         // Aggiungi gli esercizi per sessione in base all'ordine specificato
         for (String sessioneOrd : sessioniOrdinate) {
